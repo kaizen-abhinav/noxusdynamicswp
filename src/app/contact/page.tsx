@@ -115,7 +115,7 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div className="border border-white/20 p-4 bg-black/30">
                   <p className="text-[10px] font-mono text-white/60 mb-1">EMAIL</p>
-                  <p className="font-mono text-sm">contact@noxusdynamics.com</p>
+                  <p className="font-mono text-sm text-white">noxusdynamics@gmail.com</p>
                 </div>
               </div>
 
