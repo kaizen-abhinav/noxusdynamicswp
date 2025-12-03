@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import emailjs from '@emailjs/browser';
 
 interface FormData {
   name: string;
@@ -17,20 +18,37 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitted(true);
-    setIsSubmitting(false);
-    setFormData({ name: '', email: '', message: '' });
-    
-    // Reset after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        'service_8gz73wc', // Service ID
+        'template_a6coqpr', // Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        'Wy_XuV_qNDHrZuCHZ' // Public Key
+      );
+      
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      
+      // Reset after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (err) {
+      console.error('EmailJS Error:', err);
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -124,6 +142,12 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="border border-white/20 p-8 bg-black/50">
+                  {error && (
+                    <div className="mb-4 p-3 border border-red-500/50 bg-red-500/10">
+                      <p className="text-sm text-red-400 font-mono">{error}</p>
+                    </div>
+                  )}
+                  
                   <div className="mb-6">
                     <label className="block text-[10px] font-mono text-white/60 mb-2">NAME</label>
                     <input
