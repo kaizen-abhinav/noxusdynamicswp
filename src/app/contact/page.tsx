@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import emailjs from '@emailjs/browser';
 
@@ -19,6 +19,15 @@ export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Set page title and meta description for SEO
+    document.title = 'Contact NoxusDynamics - Get in Touch | Kottayam Robotics';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Contact NoxusDynamics for robotics projects and partnerships. Email: noxusdynamics@gmail.com. Based in Kottayam, Kerala. Led by Abhinav Varghese Abraham.');
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

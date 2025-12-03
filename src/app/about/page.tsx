@@ -1,8 +1,18 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function AboutPage() {
+  useEffect(() => {
+    // Set page title and meta description for SEO
+    document.title = 'About NoxusDynamics - Robotics Innovation | Kottayam, Kerala';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Learn about NoxusDynamics mission, vision, and products. Founded by Abhinav Varghese Abraham in Kottayam, Kerala. Robotics for agriculture, accessibility, and human augmentation.');
+    }
+  }, []);
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-black">
       {/* Mobile stars background */}
