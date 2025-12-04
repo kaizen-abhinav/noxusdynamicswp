@@ -21,6 +21,9 @@ export default function ContactPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Initialize EmailJS with public key
+    emailjs.init('Wy_XuV_qNDHrZuCHZ');
+    
     // Set page title and meta description for SEO
     document.title = 'Contact NoxusDynamics - Get in Touch | Kottayam Robotics';
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -36,15 +39,14 @@ export default function ContactPage() {
     
     try {
       // Send email using EmailJS
-      await emailjs.send(
+      const result = await emailjs.send(
         'service_8gz73wc', // Service ID
         'template_a6coqpr', // Template ID
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message,
-        },
-        'Wy_XuV_qNDHrZuCHZ' // Public Key
+        }
       );
       
       setIsSubmitted(true);
